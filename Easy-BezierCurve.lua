@@ -2,7 +2,7 @@
 Made By Aidaren / 究极挨打人
 Credit: 老胡家的拖鞋
 
-Version - 1.0
+Version - 1.0.0
 
 ContactMe:
 WeChat: AidarenADR
