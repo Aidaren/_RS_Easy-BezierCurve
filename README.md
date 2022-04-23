@@ -1,4 +1,4 @@
-# _RS_Easy-BezierCurve | Version - 1.3.0
+# _RS_Easy-BezierCurve | Version - 1.0.0
 
 ## 中文简介/Chinese Language
 **这个模块有什么用？   
