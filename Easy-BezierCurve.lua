@@ -2,7 +2,7 @@
 Made By Aidaren / 究极挨打人
 Credit: 老胡家的拖鞋
 
-Version - 1.0.0
+Version - 1.1.0
 
 ContactMe:
 WeChat: AidarenADR
@@ -18,23 +18,43 @@ function BezierCurve.Lerp(Start , End , Time)
 	
 end
 
-function BezierCurve.GetMiddlePosition1(Start , End)
-
-	local NewVector3 = (Start - End) * 0.5 --一半长度的向量
-	local MiddleV3 = Start - NewVector3 --居中向量
-	local startYzero = Vector3.new(Start.X,0,Start.Z)
-	local endYzero = Vector3.new(End.X,0,End.Z)
-
-	local CrossV3Unit = startYzero:Cross(endYzero).Unit
-	local FinalVector3 = MiddleV3 - CrossV3Unit * NewVector3.Magnitude
-
-	if FinalVector3.Y < 0 then
-
-		FinalVector3 = MiddleV3 + CrossV3Unit * NewVector3.Magnitude
-
+function BezierCurve.GetMiddlePosition(StartPosition , TargetPosition , Angle , Offset)
+	
+	local Vector3Test = Vector3.new(0,0,0)
+	
+	if typeof(StartPosition) == typeof(Vector3Test) then
+		StartPosition = StartPosition
+	else
+		StartPosition = StartPosition.Position
 	end
-	return FinalVector3
-
+	
+	if typeof(TargetPosition) == typeof(Vector3Test) then
+		TargetPosition = TargetPosition
+	else
+		TargetPosition = TargetPosition.Position
+	end
+	
+	if not Angle then
+		Angle = 0
+	end
+	
+	if not Offset then
+		Offset = 1
+	else
+		Offset = 1 + Offset
+	end
+	
+	local HalfVector3 = (StartPosition - TargetPosition) * 0.5 --起始与目标之间一半长度的向量
+	local MiddlePosition = StartPosition - HalfVector3 --中间位置点
+	local RotateCFrame = CFrame.new(MiddlePosition,TargetPosition) --从起始与目标之间的中心点指向目标的向量,用此向量进行旋转
+	
+	RotateCFrame = RotateCFrame * CFrame.Angles(0,0,math.rad(Angle)) --根据角度旋转此向量
+	local Radius = HalfVector3.Magnitude * Offset--旋转半径
+	
+	local ResultPosition = MiddlePosition + RotateCFrame.UpVector * Radius --中间位置 + 旋转后的上朝向 * 半径
+	
+	return ResultPosition
+	
 end
 
 ------------------------------|分割线|------------------------------
