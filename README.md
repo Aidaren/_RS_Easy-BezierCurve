@@ -18,6 +18,18 @@ This module allows you to quickly create Bezier curves and to change the orienta
 * **Obtain the three-dimensional coordinates of the point P2 which makes the curvature of the curve converge to the circumference**
 * **More features are under development**
 
+## Example Code
+```lua 
+local BezierCurve = require(Modules.Auxiliary.Math.BezierCurve)
+local MiddlePosition1 = BezierCurve.GetMiddlePosition(PlayerWeapon.Position , Target.HumanoidRootPart.Position , 45)
+
+spawn(function()
+	BezierCurve.QuadraticBezierCurvesLookAt(25 , 100 , PlayerWeapon , PlayerPositionPart , MiddlePosition1 , Target.HumanoidRootPart)
+end)
+
+--This code will move the player's weapon along a curve in the second quadrant for 25 frames
+
+```
 ### **Made By Aidaren - 究极挨打人**
 ### **Credit: 老胡家的拖鞋**
 ### **微信: AidarenADR**
