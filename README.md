@@ -30,7 +30,7 @@ spawn(function()
 	BezierCurve.QuadraticBezierCurvesLookAt(25 , 100 , PlayerWeapon , PlayerPositionPart , MiddlePosition1 , Target.HumanoidRootPart)
 	-- 25 = Frame on your path, more frame mean more smoother animation but slower play speed
 	-- 100 = FPS: Frame per second, but if fps is bigger than 17, it's will not be more faster, try to reduce your frame
-	-- PlayerWeapon = What thing that you want on beziercurve "LookAt" funtion will let the thing facing the curve path
+	-- PlayerWeapon = The thing that will follow the path move
 	-- playerPositionPart = Where the curve begin
 	-- MiddlePosition1 = The P2 (Curvature) that will change your curve's curvature
 	-- Target = Where the curve end
