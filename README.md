@@ -22,9 +22,18 @@ This module allows you to quickly create Bezier curves and to change the orienta
 ```lua 
 local BezierCurve = require(Modules.Auxiliary.Math.BezierCurve)
 local MiddlePosition1 = BezierCurve.GetMiddlePosition(PlayerWeapon.Position , Target.HumanoidRootPart.Position , 45)
+-- PlayerWeapon = P1
+-- Target = P3
+-- 45 = The angle offset of the P2
 
 spawn(function()
 	BezierCurve.QuadraticBezierCurvesLookAt(25 , 100 , PlayerWeapon , PlayerPositionPart , MiddlePosition1 , Target.HumanoidRootPart)
+	-- 25 = Frame on your path, more frame mean more smoother animation but slower play speed
+	-- 100 = FPS: Frame per second, but if fps is bigger than 17, it's will not be more faster, try to reduce your frame
+	-- PlayerWeapon = What thing that you want on beziercurve "LookAt" funtion will let the thing facing the curve path
+	-- playerPositionPart = Where the curve begin
+	-- MiddlePosition1 = The P2 (Curvature) that will change your curve's curvature
+	-- Target = Where the curve end
 end)
 
 --This code will move the player's weapon along a curve in the second quadrant for 25 frames
