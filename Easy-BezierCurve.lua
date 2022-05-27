@@ -2,12 +2,14 @@
 Made By Aidaren / 究极挨打人
 Credit: 老胡家的拖鞋
 
-Version - 1.2.0
+Version - 1.2.1
 
 ContactMe:
 WeChat: AidarenADR
 Discord: Aidaren#5009
 --]]
+
+local Debris = game:GetService("Debris")
 
 --<模块>--
 local BezierCurve = {}
@@ -43,10 +45,18 @@ function BezierCurve.GetFrameByDistance(Start , End , Multiply)
 	end
 	
 	local Distance = (Start - End).Magnitude--旋转半径
-	local Frame = math.round(Distance * 2 * Multiply)
+	local Frame = math.round(Distance * 2 / Multiply)
 	
 	return Frame
 	
+end
+
+function BezierCurve.GetMotionTime(Frame , FPS)
+	local Time = 0
+	
+	Time += task.wait(1 / FPS) * Frame
+	
+	return Time
 end
 
 function BezierCurve.GetMiddlePosition(StartPosition , TargetPosition , Angle , Offset)
@@ -224,11 +234,11 @@ end
 
 ------------------------------|分割线|------------------------------
 
-function BezierCurve.LinearBezierCurvesLookAt(Frame , FPS , Target , Position1 , Position2)
+function BezierCurve.LinearBezierCurvesLookAt(Frame , FPS , Target , Position1 , Position2 , CFrameOffset)
 
 	local CFramePart = Instance.new("Part")
 	CFramePart.Parent = Target
-	CFramePart.Transparency = 0.5
+	CFramePart.Transparency = 1
 	CFramePart.Size = Vector3.new(1,1,1)
 	CFramePart.Anchored = true
 	CFramePart.CanCollide = false
@@ -251,7 +261,7 @@ function BezierCurve.LinearBezierCurvesLookAt(Frame , FPS , Target , Position1 ,
 			continue
 		else
 			
-			Target.CFrame = CFrame.lookAt(Target.Position , CFramePart.Position , Vector3.new(0,1,0))
+			Target.CFrame = CFrame.lookAt(Target.Position , CFramePart.Position , Vector3.new(0,1,0)) * CFrameOffset
 			Target.Position = CFramePart.Position
 			
 		end
@@ -260,14 +270,16 @@ function BezierCurve.LinearBezierCurvesLookAt(Frame , FPS , Target , Position1 ,
 		
 	end
 	
+	Debris:AddItem(CFramePart , task.wait())
+	
 end
 
-function BezierCurve.QuadraticBezierCurvesLookAt(Frame , FPS , Target , Position1 , Position2 , Position3)
+function BezierCurve.QuadraticBezierCurvesLookAt(Frame , FPS , Target , Position1 , Position2 , Position3 , CFrameOffset)
 
 
 	local CFramePart = Instance.new("Part")
 	CFramePart.Parent = Target
-	CFramePart.Transparency = 0.5
+	CFramePart.Transparency = 1
 	CFramePart.Size = Vector3.new(1,1,1)
 	CFramePart.Anchored = true
 	CFramePart.CanCollide = false
@@ -297,7 +309,7 @@ function BezierCurve.QuadraticBezierCurvesLookAt(Frame , FPS , Target , Position
 			continue
 		else
 
-			Target.CFrame = CFrame.lookAt(Target.Position , CFramePart.Position , Vector3.new(0,1,0))
+			Target.CFrame = CFrame.lookAt(Target.Position , CFramePart.Position , Vector3.new(0,1,0)) * CFrameOffset
 			Target.Position = CFramePart.Position
 
 		end
@@ -305,15 +317,17 @@ function BezierCurve.QuadraticBezierCurvesLookAt(Frame , FPS , Target , Position
 		task.wait(1 / FPS)
 
 	end
-
+	
+	Debris:AddItem(CFramePart , task.wait())
+	
 end
 
-function BezierCurve.CubicBezierCurvesLookAt(Frame , FPS , Target , Position1 , Position2 , Position3 , Position4)
+function BezierCurve.CubicBezierCurvesLookAt(Frame , FPS , Target , Position1 , Position2 , Position3 , Position4 , CFrameOffset)
 
 
 	local CFramePart = Instance.new("Part")
 	CFramePart.Parent = Target
-	CFramePart.Transparency = 0.5
+	CFramePart.Transparency = 1
 	CFramePart.Size = Vector3.new(1,1,1)
 	CFramePart.Anchored = true
 	CFramePart.CanCollide = false
@@ -351,7 +365,7 @@ function BezierCurve.CubicBezierCurvesLookAt(Frame , FPS , Target , Position1 , 
 			continue
 		else
 			
-			Target.CFrame = CFrame.lookAt(Target.Position , CFramePart.Position , Vector3.new(0,1,0))
+			Target.CFrame = CFrame.lookAt(Target.Position , CFramePart.Position , Vector3.new(0,1,0)) * CFrameOffset
 			Target.Position = CFramePart.Position
 
 		end
@@ -359,7 +373,9 @@ function BezierCurve.CubicBezierCurvesLookAt(Frame , FPS , Target , Position1 , 
 		task.wait(1 / FPS)
 
 	end
-
+	
+	Debris:AddItem(CFramePart , task.wait())
+	
 end
 
 return BezierCurve
