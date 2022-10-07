@@ -41,8 +41,8 @@ end)
 
 ```
 ### **Made By Aidaren - 究极挨打人**
-### **Credits:
-老胡家的拖鞋
-枫**
+### **Credits:**
+###**老胡家的拖鞋**
+###**枫**
 ### **微信: AidarenADR**
 ### **Discord: Aidaren#5009**
