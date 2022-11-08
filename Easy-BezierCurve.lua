@@ -136,6 +136,8 @@ function BezierCurve.Get2MiddlePosition(StartPosition , TargetPosition , Angle1 
 
 		local ResultPosition = MiddlePosition + RotateCFrame.UpVector * Radius --中间位置 + 旋转后的上朝向 * 半径
 
+		return ResultPosition
+
 	end
 
 	local ResultPosition1 = GetResultPosition(StartPosition , TargetPosition , Angle1 , Offset1 , 1/3)
