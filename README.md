@@ -20,24 +20,56 @@ This module allows you to quickly create Bezier curves and to change the orienta
 
 ## Example Code
 ```lua 
-local BezierCurve = require(Modules.Auxiliary.Math.BezierCurve)
-local MiddlePosition1 = BezierCurve.GetMiddlePosition(PlayerWeapon.Position , Target.HumanoidRootPart.Position , 45)
--- PlayerWeapon = P1
--- Target = P3
--- 45 = The angle offset of the P2
+local Bezier = require(ReplicatedStorage.Utils.BezierCurve)
+	local Player = game:GetService("Players").LocalPlayer
+	local PlayerCharacter = Player.Character
+	local HumanoidRootPart = PlayerCharacter:FindFirstChild("HumanoidRootPart")
 
-spawn(function()
-	BezierCurve.QuadraticBezierCurvesLookAt(25 , 100 , PlayerWeapon , PlayerPositionPart , MiddlePosition1 , Target.HumanoidRootPart)
-	-- 25 = Frame on your path, more frame mean more smoother animation but slower play speed
-	-- 100 = FPS: Frame per second, but if fps is bigger than 17, it's will not be more faster, try to reduce your frame
-	-- PlayerWeapon = The thing that will follow the path move, or like ↓
-	-- The Projectile that will follow the beizer path (e.g a fireball)
-	-- playerPositionPart = Where the curve begin
-	-- MiddlePosition1 = The P2 (Curvature) that will change your curve's curvature
-	-- Target = Where the curve end
-end)
+	--<获得配置表>--
+	local Elasped = 0
+	local Connection
+	local Start = HumanoidRootPart.Position
+	local End = HumanoidRootPart.Position + Vector3.new(10, 0, 0) --<向X轴运动10个单位>--
+	local MidPoint = (Start:Lerp(End, 0.33)) + Vector3.new(0, 10, 0) --<将中间点设为两点间中点向上10个单位>--
+	local CurveTime = 10 --<总运动时间>--
+	local TweenTime = Instance.new("NumberValue")
+	TweenTime.Parent = PlayerCharacter
+	TweenTime.Value = 0
 
---This code will move the player's weapon along a curve in the second quadrant for 25 frames
+	game:GetService("TweenService")
+		:Create(TweenTime, TweenInfo.new(CurveTime, Enum.EasingStyle.Quart), { Value = CurveTime })
+		:Play()
+
+	--<跳跃曲线控制>--
+	Connection = game:GetService("RunService").Heartbeat:Connect(function(Delta)
+		Elasped += Delta
+
+		local Time = TweenTime.Value * (1 / CurveTime)
+		local Curve = Bezier.QuadraticBezierCurves(Time, Start, MidPoint, End)
+
+		if TweenTime.Value >= CurveTime then
+			warn("Exceed max time")
+			Connection:Disconnect()
+			PlayerCharacter:PivotTo(
+				CFrame.new(End)
+					* CFrame.Angles(
+						math.rad(HumanoidRootPart.Orientation.X),
+						math.rad(HumanoidRootPart.Orientation.Y),
+						math.rad(HumanoidRootPart.Orientation.Z)
+					)
+			)
+			TweenTime:Destroy()
+		else
+			PlayerCharacter:PivotTo(
+				CFrame.new(Curve)
+					* CFrame.Angles(
+						math.rad(HumanoidRootPart.Orientation.X),
+						math.rad(HumanoidRootPart.Orientation.Y),
+						math.rad(HumanoidRootPart.Orientation.Z)
+					)
+			)
+		end
+	end)
 
 ```
 ### **Made By Aidaren - 究极挨打人**
