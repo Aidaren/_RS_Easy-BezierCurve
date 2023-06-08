@@ -1,4 +1,4 @@
-# Easy-BezierCurve | Version - 1.3.1
+# Easy-BezierCurve | Version - 2.0.0
 
 ## 中文简介/Chinese Language
 **这个模块有什么用？   
